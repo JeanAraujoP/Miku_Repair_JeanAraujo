@@ -10,7 +10,7 @@ RUN rm -rf /usr/local/tomcat/webapps/*
 
 # 2. Copiar el archivo empaquetado .war directamente como ROOT.war
 #    Esto montará tu aplicación en la raíz de la URL (https://tu-app.up.railway.app/)
-COPY maku_repair.war /usr/local/tomcat/webapps/ROOT.war
+COPY miku_repair.war /usr/local/tomcat/webapps/ROOT.war
 
 # 3. Exponer el puerto por defecto de Tomcat
 EXPOSE 8080
