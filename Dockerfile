@@ -1,21 +1,19 @@
 # ==========================================
-# Dockerfile para maku_repair (Java / JSP / Servlets)
+# Dockerfile para maku_repair (Java / Servlets / WAR)
 # ==========================================
 
-# Opción A: Despliegue directos de webapps en Tomcat (si ya tienes los compilados en WEB-INF/classes o compiled)
+# Imagen oficial de Tomcat 10.1 con Java 17 (soporta Jakarta EE 10 / Jakarta Servlets)
 FROM tomcat:10.1-jdk17
 
-# Eliminar la app por defecto ROOT de tomcat
-RUN rm -rf /usr/local/tomcat/webapps/ROOT
+# 1. Limpiar las aplicaciones por defecto de Tomcat en webapps
+RUN rm -rf /usr/local/tomcat/webapps/*
 
-# Copiar el contenido del directorio web del proyecto como la aplicación principal
-COPY maku_repair/web/ /usr/local/tomcat/webapps/ROOT/
+# 2. Copiar el archivo empaquetado .war directamente como ROOT.war
+#    Esto montará tu aplicación en la raíz de la URL (https://tu-app.up.railway.app/)
+COPY maku_repair.war /usr/local/tomcat/webapps/ROOT.war
 
-# Si tienes librerías externas o JARs compilados, copiar a WEB-INF/lib (si aplica)
-# COPY maku_repair/build/web/WEB-INF/lib/ /usr/local/tomcat/webapps/ROOT/WEB-INF/lib/
-
-# Exponer puerto por defecto de Tomcat
+# 3. Exponer el puerto por defecto de Tomcat
 EXPOSE 8080
 
-# Comando por defecto
+# 4. Iniciar Tomcat
 CMD ["catalina.sh", "run"]
